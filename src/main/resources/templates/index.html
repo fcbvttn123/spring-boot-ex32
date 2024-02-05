@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<a href="/addKid">Click to Add Kid</a>
+	<a href="/addPet">Click to Add Pet</a>
+	
+	<hr>
+	<table th:if="${kidList != null and !kidList.empty}">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Pet Name</th>
+			<th>Pet Is Furry</th>
+			<th>Pet Type</th>
+		</tr>
+		<tr th:each="aKid : ${kidList}">
+			<td th:text="${aKid.name}">Frank</td>
+			<td th:text="${aKid.age}">12</td>
+			<td th:if="${aKid.pet != null}" th:text="${aKid.pet.name}">Twinkles</td>
+			<td th:if="${aKid.pet != null}" th:text="${aKid.pet.furry}">True</td>
+			<td th:if="${aKid.pet != null}" th:text="${aKid.pet.petType}">DOG</td>
+		</tr>
+	</table>
+	
+	<hr>
+	<table th:if="${petList != null and !petList.empty}">
+		<tr>
+			<th>Pet Name</th>
+			<th>Pet Is Furry</th>
+			<th>Pet Type</th>
+		</tr>
+			<tr th:each="aPet : ${petList}">
+			<td th:text="${aPet.name}">Twinkles</td>
+			<td th:text="${aPet.furry}">True</td>
+			<td th:text="${aPet.petType}">DOG</td>
+		</tr>
+	</table>
+	
+	<hr>
+	<label>Find All Kids Older Than This Age</label>
+	<!-- <form method="post" th:action="@{/kid_findByAgeGreaterThan/{age}}" th:object="${kid}"> -->
+	<form method="post" action="/kid_findByAgeGreaterThan" th:object="${kid}">
+		Age: <input type="number" name="age" th:field="*{age}">
+		<input type="submit" value="Go!" />
+	</form><br>
+	<table th:if="${kidsAgeGreaterThanX != null and not #lists.isEmpty(kidsAgeGreaterThanX)}">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+		<tr th:each="k : ${kidsAgeGreaterThanX}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.age}"></td>
+		</tr>
+	</table>
+	
+	<label>Find All Kids Who Own A Pet!</label>
+	<form method="post" action="/kidsHavePet">
+		<input type="submit" value="Go!" />
+	</form>
+	<table th:if="${kidsHavePet != null and not #lists.isEmpty(kidsHavePet)}">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+		<tr th:each="k : ${kidsHavePet}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.age}"></td>
+		</tr>
+	</table><br><br>
+	
+	<label>Find All Pets Who Are Furry!</label>
+	<form method="post" action="/findPetsFurryTrue">
+		<input type="submit" value="Go!" />
+	</form>
+	<table th:if="${furryPets != null and not #lists.isEmpty(furryPets)}">
+		<tr>
+			<th>Name</th>
+			<th>Furry</th>
+		</tr>
+		<tr th:each="k : ${furryPets}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.furry}"></td>
+		</tr>
+	</table>
+	<br><br>
+	
+	<label>Find All Pets By Pet Type</label>
+	<form method="post" action="/findPetsPetType" th:object="${pet}">
+		Pet Type: 
+		<select name="petType" th:field="*{petType}">
+			<option th:each="p : ${petType}" th:value="${p}" th:text="${p}" />
+		</select>
+		<input type="submit" value="Go!" />
+	</form>
+	<table th:if="${petPetType != null and not #lists.isEmpty(petPetType)}">
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+		</tr>
+		<tr th:each="k : ${petPetType}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.petType}"></td>
+		</tr>
+	</table>
+	<br><br>
+	
+	<label>Find All Kids By Pet Type</label>
+	<form method="post" action="/findKidsOwningPetType" th:object="${pet}">
+		Pet Type: 
+		<select name="petType" th:field="*{petType}">
+			<option th:each="p : ${petType}" th:value="${p}" th:text="${p}" />
+		</select>
+		<input type="submit" value="Go!" />
+	</form>
+	<table th:if="${kidsPetType != null and not #lists.isEmpty(kidsPetType)}">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+		<tr th:each="k : ${kidsPetType}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.age}"></td>
+		</tr>
+	</table><br><br>
+	
+	<label>Find All Kids Who Own A Furry Pet</label>
+	<form method="post" action="/findKidsPetFurryTrue">
+		<input type="submit" value="Go!" />
+	</form>
+	<table th:if="${kidsOwningFurryPet != null and not #lists.isEmpty(kidsOwningFurryPet)}">
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+		<tr th:each="k : ${kidsOwningFurryPet}">
+			<td th:text="${k.name}"></td>
+			<td th:text="${k.age}"></td>
+		</tr>
+	</table>
+</body>
+</html>

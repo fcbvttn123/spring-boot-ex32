@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form method="post" action="/addPet" th:object="${pet}">
+		<input type="hidden" th:field="*{id}" /> 
+		Name: <input type="text" th:field="*{name}" /><br> 
+		Furry: <input type="checkbox" th:field="*{furry}" th:value="true" /><br> 
+		Pet Type: 
+		<select th:field="*{petType}">
+			<option th:each="p : ${petType}" th:value="${p}" th:text="${p}"></option>
+		</select><br>
+		<input type="submit" value="Add Pet!" />
+	</form>
+</body>
+</html>
